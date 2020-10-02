@@ -1,0 +1,578 @@
+---
+title: "Homework 3 Markdown"
+author: "Samuel Guzman"
+date: "9/29/2020"
+output: html_document
+---
+
+1. Sample Properties
+
+Consider the following vasopressin levels in voles.
+
+```{r first_chunk}
+vole_vaso <- c(98,96,94,88,86,82,77,74,70,60,
+           59,52,50,47,40,35,29,13,6,5)
+```
+
+1a. Say “Vole vasopressin” 10 times as fast as you can. How many times did you trip up?
+
+1
+
+1b. What is the mean, median, sd, and interquartile range of the sample?
+
+```{r second_chunk}
+mean(vole_vaso) #mean
+median(vole_vaso) #median
+sd(vole_vaso) #sd
+IQR(vole_vaso) #interquartile range
+```
+
+The mean is 58.05. The median is 59.5. The sd is 29.75244. The IQR is 44.25.
+
+1c. What is the standard error of the mean (do this with a formula!)?
+
+```{r third_chunk}
+# Standard error of the mean = S/√N
+# S = Standard Deviation (sd)
+# N = Sample Size 
+
+standdev <- sd(vole_vaso) #sd
+N <- length(vole_vaso) # N
+SEM <- standdev/(sqrt(N))
+SEM
+
+```
+
+The standard error of the mean is 6.652849.
+
+ 1d. What does the standard error of the mean tell you about our estimate of the mean values of the population of vole vassopressin?
+
+According to: https://explorable.com/standard-error-of-the-mean
+
+The standard error of the mean tells us about how the mean could vary when resampling. A low standard error of the mean means that another sample would have a similar mean. My understanding is that a resampled mean would be within 6.652849 of the initial mean.
+
+2. Sample Size for upper quartiles.
+
+We can get the upper quartile value of vole vassopressin with
+
+```{r fourth_chunk}
+quantile(vole_vaso, probs = 0.75)
+```
+
+Let’s assume the sample is representative of the population.
+
+2a. Use sample() to get just one resample with a sample size of 10. What is its upper quartile?
+
+```{r fifth_chunk}
+resample_vole_vaso <- sample(vole_vaso, 10)
+quantile(resample_vole_vaso, probs = 0.75)
+```
+
+The upper quartile is 70.5.
+
+2b. Build an initial data frame for simulations with the sample sizes 5 through 20.
+
+FIRST ATTEMPT (After completing this, it became clear I may have misinterpreted the question)
+```{r sixth_chunk}
+
+#Draw samples with sample sizes ascending from 5 to 20
+
+simul_samp_size_5 <- c(sample(vole_vaso, 5), rep(NA, 15)) #The NAs exist to prevent unequal number of rows error.
+simul_samp_size_6 <- c(sample(vole_vaso, 6), rep(NA, 14))
+simul_samp_size_7 <- c(sample(vole_vaso, 7), rep(NA, 13))
+simul_samp_size_8 <- c(sample(vole_vaso, 8), rep(NA, 12))
+simul_samp_size_9 <- c(sample(vole_vaso, 9), rep(NA, 11))
+simul_samp_size_10 <- c(sample(vole_vaso, 10), rep(NA, 10))
+simul_samp_size_11 <- c(sample(vole_vaso, 11), rep(NA, 9))
+simul_samp_size_12 <- c(sample(vole_vaso, 12), rep(NA, 8))
+simul_samp_size_13 <- c(sample(vole_vaso, 13), rep(NA, 7))
+simul_samp_size_14 <- c(sample(vole_vaso, 14), rep(NA, 6))
+simul_samp_size_15 <- c(sample(vole_vaso, 15), rep(NA, 5))
+simul_samp_size_16 <- c(sample(vole_vaso, 16), rep(NA, 4))
+simul_samp_size_17 <- c(sample(vole_vaso, 17), rep(NA, 3))
+simul_samp_size_18 <- c(sample(vole_vaso, 18), rep(NA, 2))
+simul_samp_size_19 <- c(sample(vole_vaso, 19), rep(NA, 1))
+simul_samp_size_20 <- c(sample(vole_vaso, 20), rep(NA, 0))
+
+# Build the data frame
+
+sixteen_samples <- data.frame(SampleSize5 = simul_samp_size_5,
+                              SampleSize6 = simul_samp_size_6, 
+                              SampleSize7 = simul_samp_size_7,
+                              SampleSize8 = simul_samp_size_8,
+                              SampleSize9 = simul_samp_size_9,
+                              SampleSize10 = simul_samp_size_10,
+                              SampleSize11 = simul_samp_size_11,
+                              SampleSize12 = simul_samp_size_12,
+                              SampleSize13 = simul_samp_size_13,
+                              SampleSize14 = simul_samp_size_14,
+                              SampleSize15 = simul_samp_size_14,
+                              SampleSize16 = simul_samp_size_16,
+                              SampleSize17 = simul_samp_size_17,
+                              SampleSize18 = simul_samp_size_18,
+                              SampleSize19 = simul_samp_size_19,
+                              SampleSize20 = simul_samp_size_20)
+
+sixteen_samples
+
+```
+
+SECOND ATTEMPT (Interpretation: The question is asking to create the data frame but not to fill it with data. It becomes filled and utilized to determine upper quartiles in question 2c)
+
+```{r seventh_chunk}
+
+simul_samp_size_5_B <- NA #Filler Data
+simul_samp_size_6_B <- NA
+simul_samp_size_7_B <- NA
+simul_samp_size_8_B <- NA
+simul_samp_size_9_B <- NA
+simul_samp_size_10_B <- NA
+simul_samp_size_11_B <- NA
+simul_samp_size_12_B <- NA
+simul_samp_size_13_B <- NA
+simul_samp_size_14_B <- NA
+simul_samp_size_15_B <- NA
+simul_samp_size_16_B <- NA
+simul_samp_size_17_B <- NA
+simul_samp_size_18_B <- NA
+simul_samp_size_19_B <- NA
+simul_samp_size_20_B <- NA
+
+
+sixteen_samples_B <- data.frame(SampleSize5 = simul_samp_size_5_B,
+                                SampleSize6 = simul_samp_size_6_B,
+                                SampleSize7 = simul_samp_size_7_B,
+                                SampleSize8 = simul_samp_size_8_B,
+                                SampleSize9 = simul_samp_size_9_B,
+                                SampleSize10 = simul_samp_size_10_B,
+                                SampleSize11 = simul_samp_size_11_B,
+                                SampleSize12 = simul_samp_size_12_B,
+                                SampleSize13 = simul_samp_size_13_B,
+                                SampleSize14 = simul_samp_size_14_B,
+                                SampleSize15 = simul_samp_size_15_B,
+                                SampleSize16 = simul_samp_size_16_B,
+                                SampleSize17 = simul_samp_size_17_B,
+                                SampleSize18 = simul_samp_size_18_B,
+                                SampleSize19 = simul_samp_size_19_B,
+                                SampleSize20 = simul_samp_size_20_B)
+
+sixteen_samples_B
+
+
+```
+
+2c. Use this data frame to get simulated upper quartiles at each sample size 1,000 times (i.e., for 1,000 simulations).
+
+```{r eighth_chunk}
+
+#INTERPRETATION 1: Resample 1,000 times and determine upper quartile for each resample
+
+# Assumption 1: the question means get 1,000 simulated upper quartiles per sample size 
+# Assumption 2: Because it says "Use this data frame" it means use the data from that data frame. However, it is randomly determined data that should regenerate when upper quartile is determined 1000 times
+# Therefore, running the code twice should give different results
+
+# Let's try that:
+# quantile(sixteen_samples$SampleSize5[1:5], probs = 0.75)
+# quantile(sixteen_samples$SampleSize5[1:5], probs = 0.75)
+# This is not the case, it gives the same number.
+# Maybe this is due to pseudorandom effect and need to reset seed
+
+# set.seed(1)
+# quantile(sixteen_samples$SampleSize5[1:5], probs = 0.75)
+# set.seed(2)
+# quantile(sixteen_samples$SampleSize5[1:5], probs = 0.75)
+
+# It is still the same number.
+
+# I don't know why this is 
+
+# Therefore, I will just answer this question following interpretation 2.
+
+
+```
+
+INTERPRETATION 2: Determine the simulated upper quartile for the data that preexists in the data frame from question 2b 1000 times. The Upper quartile will be the same each of those 1000 times, because it is the same data.
+
+I understand it could be better practice to put this in a data frame. However, I do not know how to do this.
+
+<details>
+<summary>Sample Size 5</summary>
+```{r ninth_chunk}
+sampsize5 <- replicate(1000, quantile(sixteen_samples$SampleSize5[1:5], probs = 0.75))
+sampsize5
+```
+</details>
+
+<details>
+<summary>Sample Size 6</summary>
+```{r tenth_chunk}
+sampsize6 <- replicate(1000, quantile(sixteen_samples$SampleSize6[1:6], probs = 0.75))
+sampsize6
+```
+</details>
+
+<details>
+<summary>Sample Size 7</summary>
+```{r eleventh_chunk}
+sampsize7 <- replicate(1000, quantile(sixteen_samples$SampleSize7[1:7], probs = 0.75))
+sampsize7
+```
+</details>
+
+<details>
+<summary>Sample Size 8</summary>
+```{r twelth_chunk}
+sampsize8 <- replicate(1000, quantile(sixteen_samples$SampleSize8[1:8], probs = 0.75))
+sampsize8 
+```
+</details>
+
+<details>
+<summary>Sample Size 9</summary>
+```{r thirteenth_chunk}
+sampsize9 <- replicate(1000, quantile(sixteen_samples$SampleSize9[1:9], probs = 0.75))
+sampsize9
+```
+</details>
+
+<details>
+<summary>Sample Size 10</summary>
+```{r fourteenth_chunk}
+sampsize10 <- replicate(1000, quantile(sixteen_samples$SampleSize10[1:10], probs = 0.75))
+sampsize10
+```
+</details>
+
+<details>
+<summary>Sample Size 11</summary>
+```{r fifteenth_chunk}
+sampsize11 <- replicate(1000, quantile(sixteen_samples$SampleSize11[1:11], probs = 0.75))
+sampsize11
+```
+</details>
+
+<details>
+<summary>Sample Size 12</summary>
+```{r sixteenth_chunk}
+sampsize12 <- replicate(1000, quantile(sixteen_samples$SampleSize12[1:12], probs = 0.75))
+sampsize12
+```
+</details>
+
+<details>
+<summary>Sample Size 13</summary>
+```{r seventeenth_chunk}
+sampsize13 <- replicate(1000, quantile(sixteen_samples$SampleSize13[1:13], probs = 0.75))
+sampsize13
+```
+</details>
+
+<details>
+<summary>Sample Size 14</summary>
+```{r eighteenth_chunk}
+sampsize14 <- replicate(1000, quantile(sixteen_samples$SampleSize14[1:14], probs = 0.75))
+sampsize14
+```
+</details>
+
+<details>
+<summary>Sample Size 15</summary>
+```{r nineteenth_chunk}
+#replicate(1000, quantile(sixteen_samples$SampleSize15[1:15], probs = 0.75))
+#This produced an error for some reason
+
+```
+</details>
+
+<details>
+<summary>Sample Size 16</summary>
+```{r twentieth_chunk}
+sampsize16 <- replicate(1000, quantile(sixteen_samples$SampleSize16[1:16], probs = 0.75))
+sampsize16
+```
+</details>
+
+<details>
+<summary>Sample Size 17</summary>
+```{r twenty-first_chunk}
+sampsize17 <- replicate(1000, quantile(sixteen_samples$SampleSize17[1:17], probs = 0.75))
+sampsize17
+```
+</details>
+
+<details>
+<summary>Sample Size 18</summary>
+```{r twenty-second_chunk}
+sampsize18 <- replicate(1000, quantile(sixteen_samples$SampleSize18[1:18], probs = 0.75))
+sampsize18
+```
+</details>
+
+<details>
+<summary>Sample Size 19</summary>
+```{r twenty-third_chunk}
+#replicate(1000, quantile(sixteen_samples$SampleSize5[1:19], probs = 0.75))
+#This produced an error for some reason
+```
+</details>
+
+<details>
+<summary>Sample Size 20</summary>
+```{r twenty-fourth_chunk}
+sampsize20 <- replicate(1000, quantile(sixteen_samples$SampleSize20[1:20], probs = 0.75))
+sampsize20
+```
+</details>
+
+2d. With a ggplot, make a guesstimate as to the best sample size for estimating the upper quartile of the population. Use whatever geom you feel makes things most easy to see. E.C. Add a red dashed line using geom_vline() or geom_hline() to show where that should be, perhaps.
+
+```{r twenty-fifth_chunk}
+#Call the library
+library(ggplot2)
+# to simplify the graph, I will  take the mean of all the quantiles in each sample size, rather than all values as a whole. It seems easier to code it this way also, due to the earlier issue
+
+#First, everything has to be in data frame format
+#Create the data frame with the X and Y values:
+#19th and 15th are ommitted due to error
+fivethrough20quantile <- data.frame(Sample_Size =  c(5,6,7,8,9,10,11,12,13,14,16,17,18,20),
+                                    Mean_Upper_Quartile =
+                                    c(mean(sampsize5),
+                                    mean(sampsize6),
+                                    mean(sampsize7),
+                                    mean(sampsize8),
+                                    mean(sampsize9),
+                                    mean(sampsize10),
+                                    mean(sampsize11),
+                                    mean(sampsize12),
+                                    mean(sampsize13),
+                                    mean(sampsize14),
+                                    mean(sampsize16),
+                                    mean(sampsize17),
+                                    mean(sampsize18),
+                                    mean(sampsize20))
+                                    )
+
+
+pen_plot_base <- ggplot(data = fivethrough20quantile,
+                        mapping = aes(x = Sample_Size,
+                                      y = Mean_Upper_Quartile))
+pen_plot_base +
+  geom_point(size = 3,
+             alpha = 0.3) + geom_vline(data=fivethrough20quantile, mapping=aes(xintercept=20), color="blue")
+
+```
+
+To answer the question, my guestimate is that the best sample size for estimating the upper quartile of a population is the largest possible sample size. In this case, 20. My rationale for this is that for the lower sample size upper quartile values, they are more variable, and they become less variable as sample size increases.
+
+3. Ggplot
+3a. Some setup. Run the code below. For extra credit, look up the packages and functions used and explain what is going on here. But, that’s EC.
+
+```{r twenty-sixth_chunk}
+#libraries
+library(dplyr) # As we know, this is the library we typically 
+               # use for pipes
+library(readr) # According to  https://www.rdocumentation.org/packages/readr/versions/1.3.1
+               # readr is used for reading "rectangular data". Some
+                # formats are listed including "'csv', 'tsv', and 'fwf'" 
+library(ggplot2) # As we know, this is the library 
+                 # we use for plotting data on a chart
+library(forcats) # According to
+                 # https://forcats.tidyverse.org/
+                 # "The goal of the forcats package is to provide a
+                 #suite of tools that solve common problems with 
+                 # factors, including changing the order of levels
+                 #or the values."
+
+theme_set(theme_bw(base_size=12)) # According to
+                                  # https://www.datanovia.com/en/blog/ggplot-themes-gallery/#:~:text=Change%20the%20theme%20for%20the%20entire%20session%20using,current%20active%20theme.%20Create%20your%20own%20custom%20theme.
+                                  #This means that this theme will                                   apply to the next plot(s) drawn
+
+# A variable called ice is created. I think that it reads a CSV file (about sea ice extent) and edits it (using mutate). Month name and month probably refer to the written name of the month versus the month number (e.g. "July" versus "7"). It may be structuring  data in a way related to the month name and month number.
+# It could be creating a new column, but I don't know for sure.
+ice <- read_csv("http://biol607.github.io/homework/data/NH_seaice_extent_monthly_1978_2016.csv") %>%
+  mutate(Month_Name = factor(Month_Name),
+         Month_Name = fct_reorder(Month_Name, Month))
+
+```
+
+EC: Please observe the comments for explanations.
+
+3b. Make a boxplot showing the variability in sea ice extent every month.
+
+```{r twenty-seventh_chunk}
+
+# Put the data into a data frame. Used part of his code from https://gist.github.com/cavedave/c5c2224c8c38661236c1c1ce894fd28f
+
+icedf <- data.frame(Year=c(ice$Year),
+                    Month=c(ice$Month),
+                    Day=c(ice$Day),
+                    Extent=c(ice$Extent),
+                    Missing=c(ice$Missing))
+
+
+pen_plot_base_ice <- ggplot(data = icedf,
+                        mapping = aes(x = Month,
+                                      y = Extent,
+                                      group = Month))
+
+
+                        
+pen_plot_base_ice +
+  geom_boxplot()
+
+
+```
+
+3c. Use dplyr to get the annual minimum sea ice extent. Plot minimum ice by year. What do you observe?
+
+```{r twenty-eighth_chunk}
+
+myveccompa <- 1 # A vector has two components that define it
+myveccompb <- 2 # These will be adjusted to determine annual mins
+myvec <- myveccompa:myveccompb
+
+# This function begins configuring the next vector to
+# represent the next year
+configure_vector_for_next_year <- function(myveccompa, myveccompb){
+  myveccompa <<- myveccompb + 1 #begin configuring the next vector
+  myveccompb <<- myveccompb + 6 #to represent the next year
+  myvec <- myveccompa:myveccompb
+  return(myvec)
+}
+
+min1978 <- min(ice$Extent[myvec]) #minimum ice extent 1978
+min1979 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1979
+min1980 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1980
+min1981 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1981
+min1982 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1982
+min1983 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1983
+min1984 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1984
+min1985 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1985
+min1986 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1986
+min1987 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1987
+min1988 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1988
+min1989 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1989
+min1990 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1990
+min1991 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1991
+min1992 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1992
+min1993 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1993
+min1994 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1994
+min1995 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1995
+min1996 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1996
+min1997 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1997
+min1998 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1998
+min1999 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 1999
+min2000 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2000
+min2001 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2001
+min2002 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2002
+min2003 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2003
+min2004 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2004
+min2005 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2005
+min2006 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2006
+min2007 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2007
+min2008 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2008
+min2009 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2009
+min2010 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2010
+min2011 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2011
+min2012 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2012
+min2013 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2013
+min2014 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2014
+min2015 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2015
+min2016 <- min(ice$Extent[configure_vector_for_next_year(myveccompa, myveccompb)]) #minimum ice extent 2016
+
+min_for_all_years <- c(min1978,
+           min1979,
+           min1980,
+           min1981,
+           min1982,
+           min1983,
+           min1984,
+           min1985,
+           min1986,
+           min1987,
+           min1988,
+           min1989,
+           min1990,
+           min1991,
+           min1992,
+           min1993,
+           min1994,
+           min1995,
+           min1996,
+           min1997,
+           min1998,
+           min1999,
+           min2000,
+           min2001,
+           min2002,
+           min2003,
+           min2004,
+           min2005,
+           min2006,
+           min2007,
+           min2008,
+           min2009,
+           min2010,
+           min2011,
+           min2012,
+           min2013,
+           min2014,
+           min2015,
+           min2016)
+
+year_and_min_extent_df <- data.frame(Year = 1978:2016, 
+                                     Min_Extent = min_for_all_years) 
+
+pen_plot_base <- ggplot(data = year_and_min_extent_df,
+                        mapping = aes(x = Year,
+                                      y = Min_Extent))
+
+pen_plot_base +
+  geom_point(size = 3,
+             alpha = 0.3)
+```
+
+Due to limited time, I am not sure if the data is sorted uniformly (I saw there were a few issues) in the excel document. Also, I was not sure where or how to use dplyr.However, in the chart that I have, I can observe that minimum sea ice extent is highly variable by year (it also seems to alternate in adjacent years) and it has an increasing trend over the years in the time period. 
+
+3d. One thing that’s really cool about faceting is that you can use cut_*() functions on continuos variables to make facets by groups of continuous variables. To see what I mean, try cut_interval(1:10, n = 5) See how it makes five bins of even width? We use cut_interval() or other cut functions with faceting like so facet_wrap(~cut_interval(some_variable)).
+
+```{r twenty-ninth_chunk}
+
+#Try cut_interval(1:10, n = 5)
+cut_interval(1:10, n = 5)
+
+```
+
+With the original data, plot sea ice by year, with different lines (oh! What geom will you need for that?) for different months. Then, use facet_wrap and cut_interval(Month, n=4) to split the plot into seasons.
+
+```{r thirtieth_chunk}
+# Original data base, Month versus Extent
+pen_plot_base_ice <- ggplot(data = icedf,
+                        mapping = aes(x = Month,
+                                      y = Extent))
+
+pen_plot_base_ice +
+  geom_point(size = 3,
+             alpha = 0.3) + 
+  geom_vline(data=icedf, mapping=aes(xintercept= Month), color= "Red") + # Add vertical lines by month
+  facet_wrap(~cut_interval(Month, n = 4)) # Split the plot into seasons
+
+```
+
+3e. Last, make a line plot of sea ice by month with different lines as different years. Gussy it up with colors by year, a different theme, critical values, and whatever other annotations, changes to axes, etc., you think best show the story of this data. For ideas, see the lab, and look at various palettes around. Extra credit for using colorfindr to make a palette.
+
+Due to limited time, this is as far as I came with 3e.
+
+```{r thirty-first_chunk}
+# Original data base, Month versus Extent
+pen_plot_base_ice <- ggplot(data = icedf,
+                        mapping = aes(x = Month,
+                                      y = Extent))
+
+pen_plot_base_ice +
+  geom_line(size = 3,
+             alpha = 0.3) + 
+  geom_vline(data=icedf, mapping=aes(xintercept= Year), color= "Red") + # Add vertical lines by month
+  facet_wrap(~cut_interval(Month, n = 4)) # Split the plot into seasons
+
+```
